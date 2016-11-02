@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <string.h>
 
+/* Recieves a string ans its maximum size. Realloc the string
+ * with double the original size and return the new string. */
 char* reallocSTR(char* str, int size) { 
     int i;
     char* new;
@@ -12,6 +14,8 @@ char* reallocSTR(char* str, int size) {
     return(new);
 }
 
+/* Recieve a string with alphanumeric characters and convert them all
+ * to lower case characters. */
 void toLower (char* str) {
     int i, size;
     size = strlen(str);
@@ -20,14 +24,18 @@ void toLower (char* str) {
             str[i] += 32;
 }
 
-int alfaNumber (int c) {
+/* Recieve an integer. Return 1 if the integer is an aplanumeric character, 
+ * 0 otherwise. */
+int alphaNumeric (int c) {
     if ((c >= 48 && c<=57) || (c >= 65 && c <= 90) || (c >= 97 && c <= 122))
         return 1;
     else
         return 0;
 }
 
-int readWord (FILE* file) {
+/* Recieve a pointer a file, from where it will read a word,
+ * and return the read word in lower case. */
+char* readWord (FILE* file) {
 
     int i, c, sizestr, count;
     char* string;
@@ -35,7 +43,7 @@ int readWord (FILE* file) {
     sizestr = 5;
     string = malloc(sizestr * sizeof(char)); 
 
-    for ((c = fgetc(file)), count = 0; c !=EOF, alfaNumber(c); 
+    for ((c = fgetc(file)), count = 0; c !=EOF, alphaNumeric(c); 
          (c = fgetc(file))) {
 
         if (count == 0 && ((c >= 65 && c <= 90) || (c >= 97 && c <= 122))) {
@@ -54,5 +62,5 @@ int readWord (FILE* file) {
     }
 
     toLower(string);
-    return 0;
+    return (string);
 }
