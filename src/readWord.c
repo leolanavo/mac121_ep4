@@ -33,9 +33,11 @@ int alphaNumeric (int c) {
         return 0;
 }
 
-/* Recieve a pointer a file, from where it will read a word,
- * and return the read word in lower case. */
-char* readWord (FILE* file) {
+/* Recieve a pointer a file from where it will read a word,
+ * and return the read word in lower case. It also recieves
+ * an integer pointer so it can return 1 when the EOF is reached
+ * end, will be 0, otherwise. */
+char* readWord (FILE* file, int* end) {
 
     int i, c, sizestr, count;
     char* string;
@@ -50,16 +52,19 @@ char* readWord (FILE* file) {
             string[0] = c;
             count++;
         }
-        
+
         else if (count != 0){
             if (count == sizestr) {
                 string = reallocSTR(string, sizestr);
                 sizestr *= 2;
             }
             string[count] = c;
-            count++;   
+            count++;
         }
     }
+
+    if (c == EOF) *end = 1;
+    else *end = 0;
 
     toLower(string);
     return (string);
