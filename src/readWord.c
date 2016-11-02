@@ -1,24 +1,20 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include <ctype.h>
 
-void reallocSTR(char* str, int size) { 
+char* reallocSTR(char* str, int size) { 
     int i;
     char* new;
     new = malloc(2*size * sizeof(char));
     strcpy(new, str);
     
-    /*Clean the previous string from the memory*/
-    for (i = 0; i < size; i++)
-        str[i] = 0;
-    
     free(str);
-    str = new;
+    return(new);
 }
 
-void toLower (char* str, int size) {
-    int i;
+void toLower (char* str) {
+    int i, size;
+    size = strlen(str);
     for (i = 0; i < size; i++)
         if (str[i] >= 65 && str[i] <= 90)
             str[i] += 32;
@@ -31,26 +27,25 @@ int alfaNumber (int c) {
         return 0;
 }
 
-int main () {
-    FILE *file;
-    file = fopen("test.txt", "ro");
+int readWord (FILE* file) {
+
     int i, c, sizestr, count;
     char* string;
    
-    sizestr = 24;
+    sizestr = 5;
     string = malloc(sizestr * sizeof(char)); 
 
-    for ((c = fgetc(file)), count = 0; (isspace(c)), (alfaNumber(c)), c !=EOF; 
+    for ((c = fgetc(file)), count = 0; c !=EOF, alfaNumber(c); 
          (c = fgetc(file))) {
-        
-        if (count == 0 && !(c >= 48 && c <= 57)) {
+
+        if (count == 0 && ((c >= 65 && c <= 90) || (c >= 97 && c <= 122))) {
             string[0] = c;
             count++;
         }
         
-        else {
+        else if (count != 0){
             if (count == sizestr) {
-                reallocSTR(string, sizestr);
+                string = reallocSTR(string, sizestr);
                 sizestr *= 2;
             }
             string[count] = c;
@@ -58,7 +53,6 @@ int main () {
         }
     }
 
-    toLower(string, sizestr);
-    printf("%s\n", string); 
+    toLower(string);
     return 0;
 }
