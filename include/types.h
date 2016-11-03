@@ -9,7 +9,7 @@ typedef struct {
 typedef struct {
 	Entry* data;
 	int size;
-	int ind;
+	int count;
 } STable;
 
 typedef struct node{
