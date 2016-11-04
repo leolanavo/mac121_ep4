@@ -1,6 +1,7 @@
-#ifndef TABELASIMBOLO_VD_H
-#define TABELASIMBOLO_VD_H
+#ifndef TABELASIMBOLO_VO_H
+#define TABELASIMBOLO_VO_H
 
+#include <stdlib.h>
 #include <stdlib.h>
 #include <string.h>
 #include "../include/stableVec.h"
@@ -8,10 +9,10 @@
 #include "../include/readWord.h"
 #include "../include/types.h"
 
-/* Receives a file pointer and a string. It reads the
+/* Recieves a file pointer and a string. It reads the
  * text from the file and prints its words with the
  * corresponding frequencies according to the given
- * print mode. Uses a disorderly vector as symbol table.*/
-void desorderVec(FILE* file, char* mode);
+ * print mode. Uses a orderly vector as symbol table.*/
+void orderVec(FILE* file, char* mode);
 
 #endif

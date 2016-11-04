@@ -1,6 +1,6 @@
 BIN := ep4
 
-OBJ := tabelaSimbolo_VD.o tabelaSimbolo_VO.o tabelaSimbolo_LD.o tabelaSimbolo_LO.o tabelaSimbolo_AB.o readWord.o
+OBJ := tabelaSimbolo.o tabelaSimbolo_VD.o readWord.o tabelaSimbolo_VO.o stableVec.o auxFunctions.o #tabelaSimbolo_LD.o tabelaSimbolo_LO.o tabelaSimbolo_AB.o
 
 TAR := EP4
 
@@ -12,7 +12,7 @@ TXTDIR := txt
 LTXDIR := latex
 
 CC := gcc
-CFLAGS := -Wall -ansi -pedantic -O2
+CFLAGS := -Wall -ansi -pedantic -g
 
 #formulas for making binaries
 

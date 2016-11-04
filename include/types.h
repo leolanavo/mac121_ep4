@@ -12,9 +12,9 @@ typedef struct {
 	int count;
 } STable;
 
-typedef struct node{
-	Entry* data;
-	struct node* next;
-} cell;
+typedef struct cell{
+	Entry data;
+	struct cell* next;
+} node;
 
 #endif
