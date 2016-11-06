@@ -1,6 +1,6 @@
 BIN := ep4
 
-OBJ := tabelaSimbolo.o tabelaSimbolo_VD.o readWord.o tabelaSimbolo_VO.o stableVec.o auxFunctions.o #tabelaSimbolo_LD.o tabelaSimbolo_LO.o tabelaSimbolo_AB.o
+OBJ := tabelaSimbolo.o readWord.o stableVec.o auxFunctions.o stableList.o stableBT.o tabelaSimbolo_VD.o tabelaSimbolo_VO.o tabelaSimbolo_LD.o tabelaSimbolo_LO.o tabelaSimbolo_AB.o
 
 TAR := EP4
 
