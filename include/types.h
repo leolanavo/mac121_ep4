@@ -10,11 +10,27 @@ typedef struct {
 	Entry* data;
 	int size;
 	int count;
-} STable;
+} STableVec;
 
-typedef struct cell{
+typedef struct cell {
 	Entry data;
 	struct cell* next;
 } node;
+
+typedef struct {
+    node* head;
+    int count;
+} STableList;
+
+typedef struct cellBT {
+	Entry data;
+	struct cellBT* right;
+	struct cellBT* left;
+} nodeBT;
+
+typedef struct {
+	nodeBT* root;
+	int count;
+} STableBT;
 
 #endif

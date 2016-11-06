@@ -11,11 +11,20 @@ int alphaCompare (const void* a, const void* b);
  * Retrun 1, if a > b, -1, if a < b, and 0 otherwise*/
 int numCompare (const void* a, const void* b);
 
+/**/
+int alphaCompareList (const void* a, const void* b);
+
+/**/
+int numCompareList (const void* a, const void* b);
+
+/**/
+int numCompareBT (const void* a, const void* b);
+
 /* Receives a symbol table pointer, a key and a flag.
  * Return the position if the key is found in the table
  * and set the flag to 1.
  * Return the position where the key should be inserted
  * and set the flag to 0, otherwise.*/
-int binarySearch(STable* table, char* key, int* found);
+int binarySearch(STableVec* table, char* key, int* found);
 
 #endif
