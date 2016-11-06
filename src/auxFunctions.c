@@ -19,26 +19,51 @@ int numCompare (const void* a, const void* b) {
   return 0;
 }
 
+int alphaCompareList (const void* a, const void* b) {
+    return (strcmp((**(node**)a).data.key, (**(node**)b).data.key));
+}
+
+int numCompareList (const void* a, const void* b) {
+  if ((**(node**)a).data.info < (**(node**)b).data.info) return -1;
+  if ((**(node**)a).data.info == (**(node**)b).data.info) return 0;
+  if ((**(node**)a).data.info > (**(node**)b).data.info) return 1;
+  return 0;
+}
+
+int numCompareBT (const void* a, const void* b) {
+  if ((**(nodeBT**)a).data.info < (**(nodeBT**)b).data.info) return -1;
+  if ((**(nodeBT**)a).data.info == (**(nodeBT**)b).data.info) return 0;
+  if ((**(nodeBT**)a).data.info > (**(nodeBT**)b).data.info) return 1;
+  return 0;
+}
+
 /* Receives a symbol table pointer, a string and a flag.
  * Return the position if the key is found in the table
  * and set the flag to 1.
  * Return the position where the key should be inserted
  * and set the flag to 0, otherwise.*/
-int binarySearch(STable* table, char* key, int* found) {
+int binarySearch(STableVec* table, char* key, int* found) {
     int beg, end, mid;
     beg = 0;
-    end = table->count;
-    *found = 0;
+    end = table->count - 1;
+    *found = 0 ;
     while(beg <= end) {
         mid = (beg + end)/2;
         if (table->data[mid].key != NULL && (strcmp(table->data[mid].key, key) == 0)) {
-            *found = 1;
-            return mid;
+            if (table->data[mid].key != NULL) {
+                *found = 1;
+                return mid;
+            }
+            return 0;
         }
-        else if (table->data[mid].key && (strcmp(table->data[mid].key, key) == 1))
+        
+        else if (table->data[mid].key && (strcmp(table->data[mid].key, key) > 0))
             end = mid - 1;
+        
         else
             beg = mid + 1;
     }
-    return(end);
+    
+    
+    return(end + 1);
 }

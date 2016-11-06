@@ -9,19 +9,21 @@ void orderVec(FILE* file, char* mode) {
     int end;
     char* str;
     
-    STable* stable = STable_create(1024);
+    STableVec* stable = STableVec_create(1024);
     end = 0;
     while (end == 0) {
         str = readWord(file, &end);
-        STable_orderInsert(stable, str);
+        STableVec_orderInsert(stable, str);
     }
 
     if ((strcmp(mode, "O")) == 0) {
         qsort(stable->data, stable->count, sizeof(Entry), numCompare);
-        STable_printReverse (stable);
+        STableVec_reversePrint(stable);
     }
     else
-        STable_printOrder(stable);
+        STableVec_print(stable);
+
+    STableVec_destroy(stable);
 
     return;
 }

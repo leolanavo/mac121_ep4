@@ -47,7 +47,18 @@ char* readWord (FILE* file, int* end) {
     char* string;
                
     sizestr = 8;
-    string = malloc(sizestr * sizeof(char)); 
+    string = malloc(sizestr * sizeof(char));
+
+    c = 0;
+    
+    /*Char Seeker*/
+    if (c != EOF) {
+        *end = 0;
+        while(c!= EOF && alphaNumeric(c) == 0)
+            c = fgetc(file);
+        if (c == EOF) *end = 1;
+        ungetc(c, file);
+    }
     
     for ((c = fgetc(file)), count = 0; alphaNumeric(c); (c = fgetc(file))) {
 
@@ -65,7 +76,7 @@ char* readWord (FILE* file, int* end) {
             count++;
         }
     }
-    
+
     /*Char Seeker*/
     if (c != EOF) {
         *end = 0;
@@ -74,7 +85,7 @@ char* readWord (FILE* file, int* end) {
         if (c == EOF) *end = 1;
         ungetc(c, file);
     }
-    
+
     else *end = 1;
     
     toLower(string);

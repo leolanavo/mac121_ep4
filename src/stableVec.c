@@ -8,10 +8,10 @@
 /* Receives an integer, which will be the size of the
  * symbol table. Return an allocted symbol table pointer
  * with all of its frequencies set to 0.*/
-STable* STable_create(int size) {
+STableVec* STableVec_create(int size) {
 
     int j;
-    STable* stable = malloc (sizeof(STable)); 
+    STableVec* stable = malloc (sizeof(STableVec)); 
     stable->data = malloc (size * sizeof(Entry));
     stable->size = size;
     stable->count = 0;
@@ -25,7 +25,7 @@ STable* STable_create(int size) {
 
 /* Receives a symbol table pointer, and free all of its
  * allocted components. */
-void STable_destroy(STable* table) {
+void STableVec_destroy(STableVec* table) {
 
     int i;
     
@@ -44,11 +44,11 @@ void STable_destroy(STable* table) {
 /* Receives a symbol table pointer, and returns another
  * symbol table pointer with double the size of the orginal
  * allocted and with the same content as well.*/
-STable* STable_realloc(STable* table) {
+STableVec* STableVec_realloc(STableVec* table) {
     int i;
-    STable* new;
+    STableVec* new;
 
-    new = STable_create(table->size*2);
+    new = STableVec_create(table->size*2);
     new->count = table->count;
 
     for (i = 0; i < table->size; i++) {
@@ -57,7 +57,7 @@ STable* STable_realloc(STable* table) {
         new->data[i].info = table->data[i].info;
     }
 
-    STable_destroy(table);
+    STableVec_destroy(table);
     return(new);
 }
 
@@ -65,7 +65,7 @@ STable* STable_realloc(STable* table) {
  * simply insert the string in the first free position,
  * but if the string is found in the symbol table, it will
  * just sums 1 in the info section of the Entry struct. */
-void STable_simpleInsert(STable* table, char* key) {
+void STableVec_simpleInsert(STableVec* table, char* key) {
     int i;
     short int cmp;
     
@@ -73,7 +73,7 @@ void STable_simpleInsert(STable* table, char* key) {
         (cmp = strcmp(table->data[i].key, key)); i++) {
         
         if (i == table->size)
-            table = STable_realloc(table);
+            table = STableVec_realloc(table);
     }
 
     if (table->data[i].key == NULL) {
@@ -93,21 +93,26 @@ void STable_simpleInsert(STable* table, char* key) {
  * the string. In case, it finds the string in the table,
  * it will just sums 1 in the info section of the Entry
  * struct. */
-void STable_orderInsert(STable* table, char* key) {
+void STableVec_orderInsert(STableVec* table, char* key) {
     int i, j, found;
+    
+    if (table->count == table->size)
+        table = STableVec_realloc(table);
     
     i = binarySearch(table, key, &found);
 
     if (found == 0) {
+        
         for (j = table->count; j > i; j--) {
             table->data[j].key = malloc(strlen(table->data[j - 1].key));
             strcpy(table->data[j].key, table->data[j - 1].key);
             table->data[j].info = table->data[j - 1].info;
             free(table->data[j -  1].key);
         }
+
         table->data[i].key = malloc(strlen(key));
         strcpy(table->data[i].key, key);
-        table->data[i].info++;
+        table->data[i].info = 1;
         table->count++;
     }
 
@@ -118,7 +123,7 @@ void STable_orderInsert(STable* table, char* key) {
 
 /* Receives a symbol table pointer and prints it in the
  * correct order. */
-void STable_printOrder (STable* table) {
+void STableVec_print (STableVec* table) {
     int i;
     for (i = 0; i < table->count; i++) {
         printf("%s ", table->data[i].key);
@@ -128,7 +133,7 @@ void STable_printOrder (STable* table) {
 
 /* Receives a symbol table pointer and prints it in the
  * reverse order. */
-void STable_printReverse (STable* table) {
+void STableVec_reversePrint (STableVec* table) {
     int i;
     for (i = table->count - 1; i >= 0; i--) {
         printf("%s ", table->data[i].key);

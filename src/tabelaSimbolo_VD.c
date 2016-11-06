@@ -13,22 +13,24 @@ void desorderVec(FILE* file, char* mode) {
     int end;
     char* str;
     
-    STable* stable = STable_create(1024);
+    STableVec* stable = STableVec_create(1024);
     end = 0;
     while (end == 0) {
         str = readWord(file, &end);
-        STable_simpleInsert(stable, str);
+        STableVec_simpleInsert(stable, str);
     }
 
     if ((strcmp(mode, "A")) == 0) {
         qsort(stable->data, stable->count, sizeof(Entry), alphaCompare);
-        STable_printOrder(stable);
+        STableVec_print(stable);
     }
     
     else {
         qsort(stable->data, stable->count, sizeof(Entry), numCompare);
-        STable_printReverse(stable);
+        STableVec_reversePrint(stable);
     }
-    STable_destroy(stable);
+
+    STableVec_destroy(stable);
+    
     return;
 }
