@@ -1,63 +1,74 @@
-BIN := ep4
+BIN  := ep4
+TARF := EP4
+TEX  := relatorio.tex
 
-OBJ := tabelaSimbolo.o readWord.o stableVec.o auxFunctions.o stableList.o stableBT.o tabelaSimbolo_VD.o tabelaSimbolo_VO.o tabelaSimbolo_LD.o tabelaSimbolo_LO.o tabelaSimbolo_AB.o
+CC  := gcc
+RM  := rm -f
+MV  := mv
+TAR := tar -cvf 
 
-TAR := EP4
+CFLAGS := -Wall -ansi -pedantic -O2
 
 OBJDIR := obj
 SRCDIR := src
 BINDIR := .
 INCDIR := include
 TXTDIR := txt
-LTXDIR := latex
+LTXDIR := relatorio
 
-CC := gcc
-CFLAGS := -Wall -ansi -pedantic -g
+SRC := $(wildcard $(SRCDIR)/*.c)
+OBJ := $(patsubst $(SRCDIR)/%.c,$(OBJDIR)/%.o)
 
-#formulas for making binaries
+# main target
 
-$(BINDIR)/$(BIN): $(patsubst %.o, $(OBJDIR)/%.o, $(OBJ))
+.PHONY: all
+all: $(BINDIR)/$(BIN)
+
+# build rules
+
+$(BINDIR)/$(BIN): $(OBJ) | $(BINDIR)
 	$(CC) $(CFLAGS) -o $@ $^
 
-#general formulas for making objects
-
-$(OBJDIR)/%.o: $(SRCDIR)/%.c
+$(OBJDIR)/%.o: $(SRCDIR)/%.c | $(OBJDIR)
 	$(CC) $(CFLAGS) -c -o $@ $<
 
-$(OBJDIR)/%.o: $(SRCDIR)/%.c $(INCDIR)/%.h
+$(OBJDIR)/%.o: $(SRCDIR)/%.c $(INCDIR)/%.h | $(OBJDIR)
 	$(CC) $(CFLAGS) -c -o $@ $<
 
+# directory creation rules
 
-#general commands for automation
+$(OBJDIR) $(BINDIR) $(SRCDIR) $(INCDIR) $(LTXDIR) $(TXTDIR):
+	mkdir -p $@
 
+# phony targets for automation
+
+.PHONY: init
+init: | $(SRCDIR) $(INCDIR) $(LTXDIR) $(TXTDIR)
+	git init
+
+.PHONY: clean
 clean:
-	rm -f $(OBJDIR)/*.o
-	rm -f $(BINDIR)/*
-	rm -f $(LTXDIR)/*.dvi
-	rm -f $(LTXDIR)/*.aux
-	rm -f $(LTXDIR)/*.log
+	$(RM) $(OBJDIR)/*.o
+	$(RM) $(LTXDIR)/*.dvi
+	$(RM) $(LTXDIR)/*.aux
+	$(RM) $(LTXDIR)/*.log
 
+.PHONY: latex
 latex:
-	pdflatex $(LTXDIR)/relatorio.tex
+	pdflatex $(LTXDIR)/$(TEX)
 
-configure:
-	mkdir -p $(OBJDIR)
-	mkdir -p $(SRCDIR)
-	mkdir -p $(BINDIR)
-	mkdir -p $(INCDIR)
-	mkdir -p $(TXTDIR)
-	mkdir -p $(LTXDIR)
-
+.PHONY: organize
 organize:
-	-mv *.o $(OBJDIR)
-	-mv *.c $(SRCDIR)
-	-mv *.h $(INCDIR)
-	-mv *.txt $(TXTDIR)
-	-mv *.dvi $(LTXDIR)
-	-mv *.aux $(LTXDIR)
-	-mv *.tex $(LTXDIR)
-	-mv *.pdf $(LTXDIR)
-	-mv *.log $(LTXDIR)
+	-$(MV) *.o $(OBJDIR)
+	-$(MV) *.c $(SRCDIR)
+	-$(MV) *.h $(INCDIR)
+	-$(MV) *.txt $(TXTDIR)
+	-$(MV) *.dvi $(LTXDIR)
+	-$(MV) *.aux $(LTXDIR)
+	-$(MV) *.tex $(LTXDIR)
+	-$(MV) *.pdf $(LTXDIR)
+	-$(MV) *.log $(LTXDIR)
 
+.PHONY: tar
 tar: clean
-	tar -cvf $(TAR).tar /$(SRCDIR) /$(LTXDIR) /$(INCDIR) Makefile
+	$(TAR) $(TARF).tar /$(SRCDIR) /$(LTXDIR) /$(INCDIR) /$(OBJDIR) Makefile
