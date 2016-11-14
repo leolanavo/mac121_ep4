@@ -11,13 +11,19 @@ int alphaCompare (const void* a, const void* b);
  * Retrun 1, if a > b, -1, if a < b, and 0 otherwise*/
 int numCompare (const void* a, const void* b);
 
-/**/
+/* Function used to compare strings, used to sort
+ * the linked list using qsort.
+ * Retrun 1, if a > b, -1, if a < b, and 0 otherwise*/
 int alphaCompareList (const void* a, const void* b);
 
-/**/
+/* Function used to compare integers, used to sort
+ * the linked list using qsort.
+ * Retrun 1, if a > b, -1, if a < b, and 0 otherwise*/
 int numCompareList (const void* a, const void* b);
 
-/**/
+/* Function used to compare integers, used to sort
+ * the binary tree using qsort.
+ * Retrun 1, if a > b, -1, if a < b, and 0 otherwise*/
 int numCompareBT (const void* a, const void* b);
 
 /* Receives a symbol table pointer, a key and a flag.
