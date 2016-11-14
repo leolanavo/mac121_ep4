@@ -19,10 +19,16 @@ int numCompare (const void* a, const void* b) {
   return 0;
 }
 
+/* Function used to compare strings, used to sort
+ * the linked list using qsort.
+ * Retrun 1, if a > b, -1, if a < b, and 0 otherwise*/
 int alphaCompareList (const void* a, const void* b) {
     return (strcmp((**(node**)a).data.key, (**(node**)b).data.key));
 }
 
+/* Function used to compare integers, used to sort
+ * the linked list using qsort.
+ * Retrun 1, if a > b, -1, if a < b, and 0 otherwise*/
 int numCompareList (const void* a, const void* b) {
   if ((**(node**)a).data.info < (**(node**)b).data.info) return -1;
   if ((**(node**)a).data.info == (**(node**)b).data.info) return 0;
@@ -30,6 +36,9 @@ int numCompareList (const void* a, const void* b) {
   return 0;
 }
 
+/* Function used to compare integers, used to sort
+ * the binary tree using qsort.
+ * Retrun 1, if a > b, -1, if a < b, and 0 otherwise*/
 int numCompareBT (const void* a, const void* b) {
   if ((**(nodeBT**)a).data.info < (**(nodeBT**)b).data.info) return -1;
   if ((**(nodeBT**)a).data.info == (**(nodeBT**)b).data.info) return 0;
