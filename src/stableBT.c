@@ -32,7 +32,7 @@ nodeBT* NodeBT_search (nodeBT* root, char* key) {
     int cmp;
     nodeBT* nd;
 
-    for (nd = root; nd != NULL; cmp = strcmp(nd->data.key, key)) {
+    for (nd = root, cmp = 0; nd != NULL; cmp = strcmp(nd->data.key, key)) {
         if (cmp == 0) break;
         if (cmp > 0) nd = nd->left;
         else nd = nd->right;
@@ -75,46 +75,6 @@ STableBT* STableBT_insert (STableBT* table, char* key) {
     table->count++;
     
     return (table);
-}
-
-nodeBT* NodeBT_remove (nodeBT* root, char* key) {
-    int cmp;
-    nodeBT* aux;
-    
-    if (root == NULL) return root;
-    cmp = strcmp(root->data.key, key);
-    
-    if (cmp == 0) {
-        if (root->left == NULL) {
-            aux = root->right;
-            free(root->data.key);
-            free(root);
-            root = aux;
-            return (root);
-        }
-
-        if (root->right == NULL) {
-            aux = root->left;
-            free(root->data.key);
-            free(root);
-            root = aux;
-            return (root);
-        }
-
-        for (aux = root->left; aux != NULL && aux->right != NULL; 
-            aux = aux->right);
-
-        free(root->data.key);
-        root->data.key = malloc(strlen(aux->data.key));
-        strcpy(root->data.key, aux->data.key);
-        root->data.info = aux->data.info;
-        root->left = NodeBT_remove(root->left, aux->data.key);
-        return (root);
-    }
-
-    if (cmp > 0) root->left = NodeBT_remove(root->left, key);
-    else root->right = NodeBT_remove(root->right, key);
-    return(root);
 }
 
 void NodeBT_print (nodeBT* root) {
