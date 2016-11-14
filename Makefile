@@ -17,7 +17,7 @@ TXTDIR := txt
 LTXDIR := relatorio
 
 SRC := $(wildcard $(SRCDIR)/*.c)
-OBJ := $(patsubst $(SRCDIR)/%.c,$(OBJDIR)/%.o)
+OBJ := $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SRC))
 
 # main target
 
@@ -71,4 +71,4 @@ organize:
 
 .PHONY: tar
 tar: clean
-	$(TAR) $(TARF).tar /$(SRCDIR) /$(LTXDIR) /$(INCDIR) /$(OBJDIR) Makefile
+	$(TAR) $(TARF).tar /$(SRCDIR) /$(LTXDIR) /$(INCDIR) Makefile
